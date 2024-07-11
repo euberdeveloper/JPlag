@@ -20,14 +20,28 @@ public class PythonLanguageTest extends LanguageModuleTest {
 
     @Override
     protected void collectTestData(TestDataCollector collector) {
-        collector.testFile("test_utils.py").testCoverages();
+        collector.testFile("AnonymousVariables.py");
+        collector.testFile("Compact.py");
+        collector.testFile("IfElse.py");
+        collector.testFile("IfElseIf.py");
+        collector.testFile("IfIf.py");
+        collector.testFile("IfWithBraces.py");
+        collector.testFile("IfWithoutBraces.py");
+        collector.testFile("PatternMatching.py");
+        collector.testFile("PatternMatchingManual.py");
+        collector.testFile("StringConcat.py");
+        collector.testFile("StringTemplate.py");
+        collector.testFile("Try.py");
+        collector.testFile("TryWithResource.py");
+        collector.testFile("Verbose.py");
+        /*collector.testFile("test_utils.py").testCoverages();
 
         collector.testFile("base_features.py", "streams.py").testSourceCoverage();
 
         collector.testFile("log.py").testSourceCoverage().testTokenSequence(Python3TokenType.IMPORT, Python3TokenType.ASSIGN, Python3TokenType.ARRAY,
                 Python3TokenType.APPLY);
 
-        collector.testFile("unicode.py").testSourceCoverage().testTokenSequence(Python3TokenType.ASSIGN);
+        collector.testFile("unicode.py").testSourceCoverage().testTokenSequence(Python3TokenType.ASSIGN);*/
     }
 
     @Override

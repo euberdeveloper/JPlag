@@ -14,7 +14,7 @@ import de.jplag.util.FileUtils;
 /**
  * Provides test source from a file
  */
-class FileTestData implements TestData {
+public class FileTestData implements TestData {
     private final File file;
 
     public FileTestData(File file) {

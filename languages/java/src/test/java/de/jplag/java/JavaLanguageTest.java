@@ -30,8 +30,10 @@ import static de.jplag.java.JavaTokenType.J_TRY_END;
 import static de.jplag.java.JavaTokenType.J_VARDEF;
 
 import de.jplag.testutils.LanguageModuleTest;
+import de.jplag.testutils.datacollector.FileTestData;
 import de.jplag.testutils.datacollector.TestDataCollector;
 import de.jplag.testutils.datacollector.TestSourceIgnoredLinesCollector;
+import org.junit.jupiter.api.Test;
 
 public class JavaLanguageTest extends LanguageModuleTest {
     public JavaLanguageTest() {

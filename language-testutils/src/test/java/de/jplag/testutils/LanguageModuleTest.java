@@ -9,15 +9,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
@@ -179,6 +173,28 @@ public abstract class LanguageModuleTest {
         }
         assertTokensMatch(expected, actual, "Extracted token from " + test.data().describeTestSource() + " does not match expected sequence.");
         assertIterableEquals(expected, actual);
+    }
+
+    private List<TestData> testCazzoneSequence() {
+        return this.collector.getAllTestData();
+    }
+
+    @ParameterizedTest
+    @MethodSource("testCazzoneSequence")
+    @DisplayName("Cazzone")
+    final void testCazzone(TestData test) throws ParsingException, IOException {
+        List<TokenType> actual = extractTokenTypes(test);
+        String result = String.join("\n", actual.stream().map(TokenType::getDescription).toArray(String[]::new));
+    }
+
+    @Test
+    @DisplayName("Cazzo")
+    final void testCazzo() throws ParsingException, IOException {
+        String fileName = "StringTemplate.py";
+        Optional<TestData> test = this.collector.getAllTestData().stream().filter(data -> data.toString().equals(fileName)).findFirst();
+        List<TokenType> actual = extractTokenTypes(test.orElse(null));
+        String result = String.join("\n", actual.stream().map(TokenType::getDescription).toArray(String[]::new));
+        System.out.println(result);
     }
 
     /**

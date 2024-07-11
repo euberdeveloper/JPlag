@@ -14,6 +14,24 @@ public class KotlinLanguageTest extends LanguageModuleTest {
 
     @Override
     protected void collectTestData(TestDataCollector collector) {
+        collector.testFile("AnonymousVariables.kt");
+        collector.testFile("CLI.kt");
+        collector.testFile("Compact.kt");
+        collector.testFile("IfElse.kt");
+        collector.testFile("IfElseIf.kt");
+        collector.testFile("IfIf.kt");
+        collector.testFile("IfWithBraces.kt");
+        collector.testFile("IfWithoutBraces.kt");
+        collector.testFile("PatternMatching.kt");
+        collector.testFile("PatternMatchingManual.kt");
+        collector.testFile("StringConcat.kt");
+        collector.testFile("StringTemplate.kt");
+        collector.testFile("Try.kt");
+        collector.testFile("TryWithResource.kt");
+        collector.testFile("Verbose.kt");
+
+
+
         collector.testFile("Complete.kt").testCoverages();
         collector.testFile("Game.kt").testSourceCoverage();
 

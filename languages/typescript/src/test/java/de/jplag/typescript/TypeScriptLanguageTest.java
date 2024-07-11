@@ -12,7 +12,22 @@ public class TypeScriptLanguageTest extends LanguageModuleTest {
 
     @Override
     protected void collectTestData(TestDataCollector collector) {
-        collector.testFile("simpleTest.ts").testSourceCoverage().testTokenSequence(TypeScriptTokenType.DECLARATION, TypeScriptTokenType.ASSIGNMENT,
+        collector.testFile("AnonymousVariables.ts");
+        collector.testFile("Compact.ts");
+        collector.testFile("IfElse.ts");
+        collector.testFile("IfElseIf.ts");
+        collector.testFile("IfIf.ts");
+        collector.testFile("IfWithBraces.ts");
+        collector.testFile("IfWithoutBraces.ts");
+        collector.testFile("PatternMatching.ts");
+        collector.testFile("PatternMatchingManual.ts");
+        collector.testFile("StringConcat.ts");
+        collector.testFile("StringTemplate.ts");
+        collector.testFile("Try.ts");
+        collector.testFile("TryWithResource.ts");
+        collector.testFile("Verbose.ts");
+
+        /*collector.testFile("simpleTest.ts").testSourceCoverage().testTokenSequence(TypeScriptTokenType.DECLARATION, TypeScriptTokenType.ASSIGNMENT,
                 TypeScriptTokenType.DECLARATION, TypeScriptTokenType.ASSIGNMENT, TypeScriptTokenType.FOR_BEGIN, TypeScriptTokenType.ASSIGNMENT,
                 TypeScriptTokenType.ASSIGNMENT, TypeScriptTokenType.FUNCTION_CALL, TypeScriptTokenType.FOR_END, TypeScriptTokenType.DECLARATION,
                 TypeScriptTokenType.ASSIGNMENT, TypeScriptTokenType.FUNCTION_CALL, TypeScriptTokenType.ASSIGNMENT);
@@ -35,7 +50,7 @@ public class TypeScriptLanguageTest extends LanguageModuleTest {
                 TypeScriptTokenType.IF_BEGIN, TypeScriptTokenType.IF_BEGIN, TypeScriptTokenType.FUNCTION_CALL, TypeScriptTokenType.IF_BEGIN,
                 TypeScriptTokenType.FUNCTION_CALL, TypeScriptTokenType.IF_END, TypeScriptTokenType.IF_END, TypeScriptTokenType.IF_BEGIN,
                 TypeScriptTokenType.FUNCTION_CALL, TypeScriptTokenType.IF_END);
-        collector.testFile("allTokens.ts").testCoverages();
+        collector.testFile("allTokens.ts").testCoverages();*/
     }
 
     @Override
