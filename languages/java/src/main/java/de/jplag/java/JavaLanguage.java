@@ -129,6 +129,7 @@ public class JavaLanguage implements GeneralLanguage {
                 case JavaTokenType.J_DEFAULT-> GeneralTokenType.PIPPO;
                 case JavaTokenType.J_RECORD_BEGIN -> GeneralTokenType.CLASS_BEGIN;
                 case JavaTokenType.J_RECORD_END -> GeneralTokenType.CLASS_END;
+                case SharedTokenType.FILE_END -> SharedTokenType.FILE_END;
                 default-> GeneralTokenType.PIPPO;
             };
             return type == null ? null : new Token(type, token.getFile(), token.getLine(), token.getColumn(), token.getLength());

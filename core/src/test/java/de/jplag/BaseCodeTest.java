@@ -40,8 +40,8 @@ public class BaseCodeTest extends TestBase {
     @Test
     @DisplayName("test cross language even if only java")
     void testCrossLanguage() throws ExitException {
-        JPlagResult result = runJPlag("SubdirectoryDuplicate",
-                it -> it.withSubdirectoryName("src").withLanguageOption(Arrays.asList(new JavaLanguage())).withBaseCodeSubmissionDirectory(new File(it.submissionDirectories().iterator().next(), "Base")));
+        JPlagResult result = runJPlag("basecode",
+                it -> it.withLanguageOption(Arrays.asList(new JavaLanguage(), new KotlinLanguage())).withBaseCodeSubmissionDirectory(new File(it.submissionDirectories().iterator().next(), "base")));
         verifyResults(result);
     }
 

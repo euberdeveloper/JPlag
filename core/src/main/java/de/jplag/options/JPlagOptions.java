@@ -221,7 +221,7 @@ public record JPlagOptions(@JsonSerialize(using = LanguageSerializer.class) List
         if (minimumTokenMatch == null && !languages.isEmpty()) {
             return languages.stream()
                     .map(Language::minimumTokenMatch)
-                    .min(Integer::compareTo)
+                    .max(Integer::compareTo)
                     .orElse(null);
         }
         return minimumTokenMatch;
