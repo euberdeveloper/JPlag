@@ -124,8 +124,9 @@ public class JPlagResult {
 
     @Override
     public String toString() {
+        List<String> languagesNames = getOptions().languages().stream().map(Language::getName).toList();
         return String.format("JPlagResult { comparisons: %d, duration: %d ms, language: %s, submissions: %d }", getAllComparisons().size(),
-                getDuration(), getOptions().language().getName(), submissions.numberOfSubmissions());
+                getDuration(), String.join(",", languagesNames), submissions.numberOfSubmissions());
     }
 
     /**
