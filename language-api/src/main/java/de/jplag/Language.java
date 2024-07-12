@@ -138,7 +138,7 @@ public interface Language {
         String fileName = file.getName();
         int lastDotIndex = fileName.lastIndexOf('.');
         if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
-            return fileName.substring(lastDotIndex + 1);
+            return "." + fileName.substring(lastDotIndex + 1);
         } else {
             return "";
         }

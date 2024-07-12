@@ -231,16 +231,6 @@ public class Submission implements Comparable<Submission> {
         hasErrors = true;
     }
 
-    private String getFileExtension(File file) {
-        String fileName = file.getName();
-        int lastDotIndex = fileName.lastIndexOf('.');
-        if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
-            return fileName.substring(lastDotIndex + 1);
-        } else {
-            return "";
-        }
-    }
-
     /**
      * Parse files of the submission.
      * @param debugParser specifies if the submission should be copied upon parsing errors.
@@ -259,7 +249,7 @@ public class Submission implements Comparable<Submission> {
             tokenList = new ArrayList<>();
             for (Language language : languages) {
                 Set<File> matchingFiles = files.stream()
-                        .filter(file -> language.suffixesInclude(this.getFileExtension(file)))
+                        .filter(file -> language.suffixesInclude(Language.getFileExtension(file)))
                         .collect(Collectors.toSet());
 
                 List<Token> languageTokens = language.parse(matchingFiles, normalize);
