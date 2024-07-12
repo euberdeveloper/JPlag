@@ -4,10 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 import de.jplag.java.JavaLanguage;
 import de.jplag.kotlin.KotlinLanguage;
+import de.jplag.options.JPlagOptions;
+import de.jplag.reporting.reportobject.ReportObjectFactory;
+import de.jplag.typescript.TypeScriptLanguageCandidateTwo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +50,22 @@ public class BaseCodeTest extends TestBase {
         JPlagResult result = runJPlag("basecode",
                 it -> it.withLanguageOption(Arrays.asList(new JavaLanguage(), new KotlinLanguage())).withBaseCodeSubmissionDirectory(new File(it.submissionDirectories().iterator().next(), "base")));
         verifyResults(result);
+    }
+
+    @Test
+    @DisplayName("test cross language even if only java")
+    void testCrossLanguagePerDavvero() throws ExitException, FileNotFoundException {
+        List<File> submissionDirs = Arrays.stream(Objects.requireNonNull(new File(getBasePath("java-to-typescript-convertai")).listFiles())).toList();
+        for (File submissionDir : submissionDirs) {
+            List<Language> languages = Arrays.asList(new JavaLanguage(), new TypeScriptLanguageCandidateTwo());
+            HashSet<File> submission = new HashSet<>();
+            submission.add(submissionDir);
+            JPlagOptions options = new JPlagOptions(languages, submission, new HashSet<>()).withMinimumTokenMatch(3);
+            JPlagResult result = JPlag.run(options);
+            new ReportObjectFactory(new File("C:\\Users\\eugen\\Desktop\\" + submissionDir.getName() + ".zip"))
+                    .createAndSaveReport(result);
+            System.out.println("ciao");
+        }
     }
 
     @Test

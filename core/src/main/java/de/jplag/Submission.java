@@ -285,9 +285,10 @@ public class Submission implements Comparable<Submission> {
             Set<File> matchingFiles = files.stream()
                     .filter(file -> gLanguage.suffixesInclude(Language.getFileExtension(file)))
                     .collect(Collectors.toSet());
-
-            List<Token> languageTokens = gLanguage.parse(matchingFiles, normalize, true);
-            tokens.addAll(languageTokens);
+            if (!matchingFiles.isEmpty()) {
+                List<Token> languageTokens = gLanguage.parse(matchingFiles, normalize, true);
+                tokens.addAll(languageTokens);
+            }
         }
         return tokens;
     }
