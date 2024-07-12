@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import de.jplag.exceptions.CrossLanguageSupportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,9 +105,18 @@ public class JPlag {
         }
     }
 
-    private static void checkForConfigurationConsistency(JPlagOptions options) throws RootDirectoryException {
+    private static void checkForConfigurationConsistency(JPlagOptions options) throws CrossLanguageSupportException {
         if (options.normalize() && !options.languagesRequireCoreNormalization()) {
             logger.error(String.format("The language %s cannot be used with normalization.", options.languagesNames()));
+        }
+
+        if (options.languages().size() > 1) {
+            for (Language language : options.languages()) {
+                if (!language.supportsCrossLanguage()) {
+                    logger.error(String.format("The language %s cannot be used with cross language detection.", language));
+                    throw new CrossLanguageSupportException(String.format("The language %s cannot be used with cross language detection.", language));
+                }
+            }
         }
     }
 }
