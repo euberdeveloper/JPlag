@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
+import java.util.Arrays;
 
+import de.jplag.java.JavaLanguage;
+import de.jplag.kotlin.KotlinLanguage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +35,14 @@ public class BaseCodeTest extends TestBase {
     void testTinyBasecode() {
         assertThrows(BasecodeException.class, () -> runJPlag("TinyBasecode",
                 it -> it.withBaseCodeSubmissionDirectory(new File(it.submissionDirectories().iterator().next(), "base"))));
+    }
+
+    @Test
+    @DisplayName("test cross language even if only java")
+    void testCrossLanguage() throws ExitException {
+        JPlagResult result = runJPlag("SubdirectoryDuplicate",
+                it -> it.withSubdirectoryName("src").withLanguageOption(Arrays.asList(new JavaLanguage())).withBaseCodeSubmissionDirectory(new File(it.submissionDirectories().iterator().next(), "Base")));
+        verifyResults(result);
     }
 
     @Test

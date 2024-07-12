@@ -16,8 +16,8 @@ public interface GeneralLanguage extends Language {
 
     default List<Token> parse(Set<File> files, boolean normalize, boolean isCrossLanguage) throws ParsingException {
         return isCrossLanguage
-                ? parse(files, normalize)
-                : parseGeneral(files, normalize);
+                ? parseGeneral(files, normalize)
+                : parse(files, normalize);
     }
 
     List<Token> parseGeneral(Set<File> files, boolean normalize) throws ParsingException;

@@ -231,6 +231,10 @@ public class Submission implements Comparable<Submission> {
         hasErrors = true;
     }
 
+    boolean isCrossLanguage() {
+        return this.languages.size() > 1;
+    }
+
     /**
      * Parse files of the submission.
      * @param debugParser specifies if the submission should be copied upon parsing errors.
@@ -246,15 +250,9 @@ public class Submission implements Comparable<Submission> {
         }
 
         try {
-            tokenList = new ArrayList<>();
-            for (Language language : languages) {
-                Set<File> matchingFiles = files.stream()
-                        .filter(file -> language.suffixesInclude(Language.getFileExtension(file)))
-                        .collect(Collectors.toSet());
-
-                List<Token> languageTokens = language.parse(matchingFiles, normalize);
-                tokenList.addAll(languageTokens);
-            }
+            tokenList = isCrossLanguage()
+                    ? getGeneralTokens(normalize)
+                    : getSpecificTokens(normalize);
             if (logger.isDebugEnabled()) {
                 for (Token token : tokenList) {
                     logger.debug(String.join(" | ", token.getType().toString(), Integer.toString(token.getLine()), token.getSemantics().toString()));
@@ -278,6 +276,23 @@ public class Submission implements Comparable<Submission> {
             return false;
         }
         return true;
+    }
+
+    private List<Token> getGeneralTokens(boolean normalize) throws ParsingException {
+        ArrayList<Token> tokens = new ArrayList<>();
+        for (Language language : languages) {
+            GeneralLanguage gLanguage = (GeneralLanguage) language;
+            Set<File> matchingFiles = files.stream()
+                    .filter(file -> gLanguage.suffixesInclude(Language.getFileExtension(file)))
+                    .collect(Collectors.toSet());
+
+            List<Token> languageTokens = gLanguage.parse(matchingFiles, normalize, true);
+            tokens.addAll(languageTokens);
+        }
+        return tokens;
+    }
+    private List<Token> getSpecificTokens(boolean normalize) throws ParsingException {
+        return languages.getFirst().parse(new HashSet<>(files), normalize);
     }
 
     /**
