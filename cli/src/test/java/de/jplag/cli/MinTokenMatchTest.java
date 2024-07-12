@@ -1,10 +1,9 @@
 package de.jplag.cli;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class MinTokenMatchTest extends CommandLineInterfaceTest {
 
@@ -12,8 +11,8 @@ class MinTokenMatchTest extends CommandLineInterfaceTest {
     void testLanguageDefault() throws CliException {
         // Language defaults not set yet:
         buildOptionsFromCLI(defaultArguments());
-        assertNotNull(options.language());
-        assertEquals(options.language().minimumTokenMatch(), options.minimumTokenMatch().intValue());
+        assertFalse(options.languages().isEmpty());
+        assertEquals(options.languagesMinTokenMatch(), options.minimumTokenMatch().intValue());
     }
 
     @Test

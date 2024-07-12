@@ -134,6 +134,10 @@ public interface Language {
         return Arrays.stream(this.suffixes()).toList().contains(suffix);
     }
 
+    default boolean supportsCrossLanguage() {
+        return false;
+    }
+
     static String getFileExtension(File file) {
         String fileName = file.getName();
         int lastDotIndex = fileName.lastIndexOf('.');

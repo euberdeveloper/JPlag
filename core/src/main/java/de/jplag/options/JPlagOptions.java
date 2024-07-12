@@ -381,6 +381,9 @@ public record JPlagOptions(@JsonSerialize(using = LanguageSerializer.class) List
         }
         return result;
     }
+    public int languagesMinTokenMatch() {
+        return languages.stream().map(Language::minimumTokenMatch).min(Integer::compareTo).orElse(minimumTokenMatch);
+    }
     public String languagesNames() {
         List<String> languageNames = languages.stream().map(Language::getName).toList();
         return String.join(", ", languageNames);

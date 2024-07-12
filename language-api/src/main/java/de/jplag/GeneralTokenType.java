@@ -1,14 +1,12 @@
-package de.jplag.general;
-
-import de.jplag.TokenType;
+package de.jplag;
 
 public enum GeneralTokenType implements TokenType {
     PACKAGE("PACKAGE"), 
     IMPORT("IMPORT"), 
     CLASS_BEGIN("CLASS{"), 
     CLASS_END("}CLASS"), 
-    METHOD_BEGIN("METHOD{"), 
-    METHOD_END("}METHOD"), 
+    FUN_BEGIN("FUN{"),
+    FUN_END("}FUN"),
     VARDEF("VARDEF"), 
     LOOP_BEGIN("LOOP{"), 
     LOOP_END("}LOOP"), 
@@ -27,7 +25,7 @@ public enum GeneralTokenType implements TokenType {
     CONTINUE("CONTINUE"), 
     RETURN("RETURN"), 
     THROW("THROW"), 
-    INVOC("INVOC"),
+    CALL("CALL"),
     ASSIGN("ASSIGN"), 
     INTERFACE_BEGIN("INTERF{"), 
     INTERFACE_END("}INTERF"), 
