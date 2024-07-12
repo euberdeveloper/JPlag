@@ -68,7 +68,7 @@ public class JPlag {
         // Parse and validate submissions.
         SubmissionSetBuilder builder = new SubmissionSetBuilder(options);
         SubmissionSet submissionSet = builder.buildSubmissionSet();
-        if (options.normalize() && options.language().supportsNormalization() && options.language().requiresCoreNormalization()) {
+        if (options.normalize() && options.languagesSupportNormalization() && options.languagesRequireCoreNormalization()) {
             submissionSet.normalizeSubmissions();
         }
         int submissionCount = submissionSet.numberOfSubmissions();
@@ -105,8 +105,8 @@ public class JPlag {
     }
 
     private static void checkForConfigurationConsistency(JPlagOptions options) throws RootDirectoryException {
-        if (options.normalize() && !options.language().supportsNormalization()) {
-            logger.error(String.format("The language %s cannot be used with normalization.", options.language().getName()));
+        if (options.normalize() && !options.languagesRequireCoreNormalization()) {
+            logger.error(String.format("The language %s cannot be used with normalization.", options.languagesNames()));
         }
     }
 }

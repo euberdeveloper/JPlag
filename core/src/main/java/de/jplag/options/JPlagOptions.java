@@ -361,4 +361,16 @@ public record JPlagOptions(@JsonSerialize(using = LanguageSerializer.class) List
         }
         return new File(submissionDirectory, baseCodeSubmissionName);
     }
+
+    public boolean languagesSupportNormalization() {
+        return languages.stream().allMatch(Language::supportsNormalization);
+    }
+    public boolean languagesRequireCoreNormalization() {
+        return languages.stream().allMatch(Language::requiresCoreNormalization);
+    }
+    public String languagesNames() {
+        List<String> languageNames = languages.stream().map(Language::getName).toList();
+        return String.join(", ", languageNames);
+    }
+
 }
