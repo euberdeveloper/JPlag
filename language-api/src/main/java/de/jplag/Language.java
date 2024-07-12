@@ -134,4 +134,30 @@ public interface Language {
         return Arrays.stream(this.suffixes()).toList().contains(suffix);
     }
 
+    static String getFileExtension(File file) {
+        String fileName = file.getName();
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1);
+        } else {
+            return "";
+        }
+    }
+    static Language getLanguageForSuffix(List<Language> languages, String suffix) {
+        for (Language language : languages) {
+            if (Arrays.stream(language.suffixes()).toList().contains(suffix)) {
+                return language;
+            }
+        }
+        return null;
+    }
+    static Language getLanguageForFile(List<Language> languages, File file) {
+        for (Language language : languages) {
+            if (Arrays.stream(language.suffixes()).toList().contains(getFileExtension(file))) {
+                return language;
+            }
+        }
+        return null;
+    }
+
 }

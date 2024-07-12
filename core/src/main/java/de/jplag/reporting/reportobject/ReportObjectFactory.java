@@ -105,20 +105,21 @@ public class ReportObjectFactory {
         logger.info("Start to export results...");
         List<JPlagComparison> comparisons = result.getComparisons(result.getOptions().maximumNumberOfComparisons());
         Set<Submission> submissions = getSubmissions(comparisons);
-        Language language = result.getOptions().language();
+        List<Language> languages = result.getOptions().languages();
         for (Submission submission : submissions) {
             for (File file : submission.getFiles()) {
                 Path filePath = FilePathUtil.getRelativeSubmissionPath(file, submission, submissionToIdFunction);
                 Path zipPath = SUBMISSIONS_ROOT_PATH.resolve(filePath);
 
-                File fileToCopy = getFileToCopy(language, file);
+                File fileToCopy = getFileToCopy(languages, file);
                 this.resultWriter.addFileContentEntry(zipPath, fileToCopy);
             }
         }
     }
 
-    private File getFileToCopy(Language language, File file) {
-        return language.useViewFiles() ? new File(file.getPath() + language.viewFileSuffix()) : file;
+    private File getFileToCopy(List<Language> languages, File file) {
+        Language language = Language.getLanguageForFile(languages, file);
+        return language != null && language.useViewFiles() ? new File(file.getPath() + language.viewFileSuffix()) : file;
     }
 
     private void writeComparisons(JPlagResult result) {
@@ -142,7 +143,7 @@ public class ReportObjectFactory {
                 missingComparisons);
         OverviewReport overviewReport = new OverviewReport(REPORT_VIEWER_VERSION, folders.stream().map(File::getPath).toList(), // submissionFolderPath
                 baseCodePath, // baseCodeFolderPath
-                result.getOptions().language().getName(), // language
+                result.getOptions().languagesNames(), // language
                 result.getOptions().fileSuffixes(), // fileExtensions
                 submissionNameToIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey)), // submissionIds
                 submissionNameToNameToComparisonFileName, // result.getOptions().getMinimumTokenMatch(),
