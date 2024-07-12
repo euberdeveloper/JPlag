@@ -99,9 +99,9 @@ public class SubmissionSetBuilder {
         List<Submission> submissions = new ArrayList<>(foundSubmissions.values());
 
         // Some languages expect a certain order, which is ensured here:
-        if (options.language().expectsSubmissionOrder()) {
+        if (options.languagesExpectSubmissionOrder()) {
             List<File> rootFiles = foundSubmissions.values().stream().map(Submission::getRoot).toList();
-            rootFiles = options.language().customizeSubmissionOrder(rootFiles);
+            rootFiles = options.languagesCustomizeSubmissionOrder(rootFiles);
             submissions = new ArrayList<>(rootFiles.stream().map(foundSubmissions::get).toList());
         }
         return new SubmissionSet(submissions, baseCodeSubmission.orElse(null), options);
@@ -319,7 +319,7 @@ public class SubmissionSetBuilder {
         }
 
         submissionFile = makeCanonical(submissionFile, it -> new SubmissionException("Cannot create submission: " + submissionName, it));
-        return new Submission(submissionName, submissionFile, isNew, parseFilesRecursively(submissionFile), options.language());
+        return new Submission(submissionName, submissionFile, isNew, parseFilesRecursively(submissionFile), options.languages());
     }
 
     private void processSubmissionFile(SubmissionFileData file, boolean multipleRoots, Map<File, String> rootDirectoryNamePrefixesMapper,

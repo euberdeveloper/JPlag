@@ -4,15 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +54,7 @@ public class Submission implements Comparable<Submission> {
      */
     private JPlagComparison baseCodeComparison;
 
-    private final Language language;
+    private final List<Language> languages;
 
     private Map<File, Integer> fileTokenCount;
 
@@ -71,14 +64,14 @@ public class Submission implements Comparable<Submission> {
      * @param submissionRootFile is the submission file, or the root of the submission itself.
      * @param isNew states whether the submission must be checked for plagiarism.
      * @param files are the files of the submissions, if the root is a single file it should just contain one file.
-     * @param language is the language of the submission.
+     * @param languages are the languages of the submission.
      */
-    public Submission(String name, File submissionRootFile, boolean isNew, Collection<File> files, Language language) {
+    public Submission(String name, File submissionRootFile, boolean isNew, Collection<File> files, List<Language> languages) {
         this.name = name;
         this.submissionRootFile = submissionRootFile;
         this.isNew = isNew;
         this.files = files;
-        this.language = language;
+        this.languages = languages;
     }
 
     @Override
@@ -214,7 +207,8 @@ public class Submission implements Comparable<Submission> {
      * This method is used to copy files that can not be parsed to a special folder.
      */
     private void copySubmission() {
-        File errorDirectory = createErrorDirectory(language.getIdentifier(), name);
+        // TODO find a better way for the language
+        File errorDirectory = createErrorDirectory(languages.getFirst().getIdentifier(), name);
         logger.info("Copying erroneous submission to {}", errorDirectory.getAbsolutePath());
         for (File file : files) {
             try {
@@ -237,6 +231,16 @@ public class Submission implements Comparable<Submission> {
         hasErrors = true;
     }
 
+    private String getFileExtension(File file) {
+        String fileName = file.getName();
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1);
+        } else {
+            return "";
+        }
+    }
+
     /**
      * Parse files of the submission.
      * @param debugParser specifies if the submission should be copied upon parsing errors.
@@ -252,7 +256,15 @@ public class Submission implements Comparable<Submission> {
         }
 
         try {
-            tokenList = language.parse(new HashSet<>(files), normalize);
+            tokenList = new ArrayList<>();
+            for (Language language : languages) {
+                Set<File> matchingFiles = files.stream()
+                        .filter(file -> language.suffixesInclude(this.getFileExtension(file)))
+                        .collect(Collectors.toSet());
+
+                List<Token> languageTokens = language.parse(matchingFiles, normalize);
+                tokenList.addAll(languageTokens);
+            }
             if (logger.isDebugEnabled()) {
                 for (Token token : tokenList) {
                     logger.debug(String.join(" | ", token.getType().toString(), Integer.toString(token.getLine()), token.getSemantics().toString()));
@@ -311,7 +323,7 @@ public class Submission implements Comparable<Submission> {
      * @return Submission containing shallow copies of its fields.
      */
     public Submission copy() {
-        Submission copy = new Submission(name, submissionRootFile, isNew, files, language);
+        Submission copy = new Submission(name, submissionRootFile, isNew, files, languages);
         copy.setTokenList(new ArrayList<>(tokenList));
         copy.setBaseCodeComparison(baseCodeComparison);
         return copy;

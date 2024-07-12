@@ -366,7 +366,20 @@ public record JPlagOptions(@JsonSerialize(using = LanguageSerializer.class) List
         return languages.stream().allMatch(Language::supportsNormalization);
     }
     public boolean languagesRequireCoreNormalization() {
-        return languages.stream().allMatch(Language::requiresCoreNormalization);
+        return languages.stream().anyMatch(Language::requiresCoreNormalization);
+    }
+    public boolean languagesExpectSubmissionOrder() {
+        return languages.stream().anyMatch(Language::expectsSubmissionOrder);
+    }
+    public List<File> languagesCustomizeSubmissionOrder(List<File> rootFiles) {
+        // TODO: filter for file extension and order only the files matching that specific language
+        List<File> result = rootFiles.stream().toList();
+        for (Language language : languages) {
+            if (language.expectsSubmissionOrder()) {
+                result = language.customizeSubmissionOrder(result);
+            }
+        }
+        return result;
     }
     public String languagesNames() {
         List<String> languageNames = languages.stream().map(Language::getName).toList();
