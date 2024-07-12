@@ -10,20 +10,3 @@ public class IfElse1 {
         }
     }
 }
-
-
-IMPORT
-CLASS{
-    METHOD{
-        VARDEF
-        IF{
-            THROW
-                    NEWCLASS
-        }IF
-        IF{
-            APPLY
-                    APPLY
-        }IF
-    }METHOD
-}CLASS
-        EOF
