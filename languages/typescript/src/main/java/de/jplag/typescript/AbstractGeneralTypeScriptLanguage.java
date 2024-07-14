@@ -13,5 +13,6 @@ import java.util.Set;
  * This represents the TypeScript language as a language supported by JPlag.
  */
 @MetaInfServices(Language.class)
-public abstract class AbstractGeneralTypeScriptLanguage extends TypeScriptLanguage implements GeneralLanguage {
-}
+public abstract class AbstractGeneralTypeScriptLanguage
+        extends TypeScriptLanguage
+        implements GeneralLanguage {}

@@ -31,9 +31,7 @@ public enum GeneralTokenType implements TokenType {
     INTERFACE_END("}INTERF"), 
     ENUM_BEGIN("ENUM"), 
     ENUM_END("}ENUM"), 
-    GENERIC("GENERIC"),
-
-    PIPPO("PIPPO");
+    GENERIC("GENERIC");
 
     private final String description;
 
