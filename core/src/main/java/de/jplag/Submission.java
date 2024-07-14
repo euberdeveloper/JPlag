@@ -255,7 +255,7 @@ public class Submission implements Comparable<Submission> {
                     : getSpecificTokens(normalize);
             if (logger.isDebugEnabled()) {
                 for (Token token : tokenList) {
-                    logger.debug(String.join(" | ", token.getType().toString(), Integer.toString(token.getLine()), token.getSemantics().toString()));
+                    logger.debug(String.join(" | ", token.getType().toString(), Integer.toString(token.getLine()), token.getSemantics() == null ? "" : token.getSemantics().toString()));
                 }
             }
         } catch (ParsingException e) {

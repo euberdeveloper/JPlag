@@ -83,7 +83,7 @@ public class JavaLanguageCandidateOne extends  AbstractGeneralJavaLanguage {
                 case SharedTokenType.FILE_END -> SharedTokenType.FILE_END;
                 default-> null;
             };
-            return type == null ? null : new Token(type, token.getFile(), token.getLine(), token.getColumn(), token.getLength());
+            return type == null ? null : new Token(type, token.getFile(), token.getLine(), token.getColumn(), token.getLength(), token.getSemantics());
         }).filter(Objects::nonNull).toList();
     }
 }
