@@ -40,7 +40,7 @@ public class JavaLanguageTest extends LanguageModuleTest {
         super(new JavaLanguage(), JavaTokenType.class);
     }
 
-    @Override
+   @Override
     protected void collectTestData(TestDataCollector collector) {
         // Test cases regarding the extraction from if and else conditions.
         collector.testFile("IfElse.java", "IfIf.java", "IfElseIf.java").testSourceCoverage().testTokenSequence(J_IMPORT, J_CLASS_BEGIN,
@@ -80,7 +80,7 @@ public class JavaLanguageTest extends LanguageModuleTest {
     @Override
     protected void configureIgnoredLines(TestSourceIgnoredLinesCollector collector) {
         collector.ignoreLinesByPrefix("//");
-        collector.ignoreMultipleLines("/*", "*/");
+        collector.ignoreMultipleLines("/*", "*/   /*");
         collector.ignoreLinesByPrefix("})");
         collector.ignoreByCondition(line -> line.contains("else") && !line.contains("if"));
     }

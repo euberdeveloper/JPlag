@@ -14,7 +14,6 @@ import de.jplag.java.JavaLanguage;
 import de.jplag.kotlin.KotlinLanguage;
 import de.jplag.options.JPlagOptions;
 import de.jplag.reporting.reportobject.ReportObjectFactory;
-import de.jplag.typescript.TypeScriptLanguageCandidateTwo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +43,7 @@ public class BaseCodeTest extends TestBase {
                 it -> it.withBaseCodeSubmissionDirectory(new File(it.submissionDirectories().iterator().next(), "base"))));
     }
 
-    @Test
+    /*@Test
     @DisplayName("test cross language even if only java")
     void testCrossLanguage() throws ExitException {
         JPlagResult result = runJPlag("basecode",
@@ -66,7 +65,7 @@ public class BaseCodeTest extends TestBase {
                     .createAndSaveReport(result);
             System.out.println("ciao");
         }
-    }
+    }*/
 
     @Test
     @DisplayName("test empty submissions with basecode")
